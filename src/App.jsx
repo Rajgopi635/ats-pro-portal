@@ -5,8 +5,10 @@ import Requirements from "./pages/Requirements";
 import Candidates from "./pages/Candidates";
 import Submissions from "./pages/Submissions";
 import Login from "./pages/Login";
-
 import { supabase } from "./services/supabase";
+import AdminDashboard from "./pages/AdminDashboard";
+import RecruiterDashboard from "./pages/RecruiterDashboard";
+import SalesDashboard from "./pages/SalesDashboard";
 
 import {
   LayoutDashboard,
@@ -253,12 +255,22 @@ function App() {
 
       <div className="main-content">
 
-  {activePage ===
-    "dashboard" && (
-    <Dashboard
-      userRole={userRole}
-    />
-  )}
+  {activePage === "dashboard" &&
+ userRole === "admin" && (
+  <AdminDashboard
+    userRole={userRole}
+  />
+)}
+
+{activePage === "dashboard" &&
+ userRole === "recruiter" && (
+  <RecruiterDashboard />
+)}
+
+{activePage === "dashboard" &&
+ userRole === "sales" && (
+  <SalesDashboard />
+)}
 
   {activePage ===
     "requirements" &&

@@ -45,9 +45,18 @@ function AddCandidateModal({
       return;
     }
 
+    const {
+  data: { user }
+} = await supabase.auth.getUser();
+
     const { error } = await supabase
       .from("candidates")
-      .insert([formData]);
+      .insert([
+  {
+    ...formData,
+    created_by: user.email
+  }
+]);
 
     if (!error) {
 

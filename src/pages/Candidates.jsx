@@ -34,6 +34,28 @@ function Candidates({
 
   async function fetchCandidates() {
 
+  if (userRole === "recruiter") {
+
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
+
+    const { data } =
+      await supabase
+        .from("candidates")
+        .select("*")
+        .eq(
+          "created_by",
+          user.email
+        )
+        .order("id", {
+          ascending: false
+        });
+
+    setCandidates(data || []);
+
+  } else {
+
     const { data } =
       await supabase
         .from("candidates")
@@ -43,32 +65,10 @@ function Candidates({
         });
 
     setCandidates(data || []);
+
   }
 
-  async function deleteCandidate(id) {
-
-  if (
-    userRole ===
-    "recruiter"
-  ) {
-    return;
-  }
-
-    const confirmDelete =
-      window.confirm(
-        "Delete Candidate?"
-      );
-
-    if (!confirmDelete) return;
-
-    await supabase
-      .from("candidates")
-      .delete()
-      .eq("id", id);
-
-    fetchCandidates();
-  }
-
+}
   const filtered =
     candidates.filter(
       (c) =>
