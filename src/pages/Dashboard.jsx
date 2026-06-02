@@ -36,7 +36,6 @@ function Dashboard({ userRole }) {
   fetchSubmissions();
   fetchCandidates();
 
-}, []);
 
 async function fetchCandidates() {
 
