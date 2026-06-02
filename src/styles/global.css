@@ -340,14 +340,7 @@ tbody tr:hover{
 }
 
 .card::before{
-  content:"";
-  position:absolute;
-  width:70px;
-  height:70px;
-  top:22px;
-  right:22px;
-  border-radius:18px;
-  background:#eff6ff;
+  display:none;
 }
 
 .card:nth-child(2)::before{
@@ -362,8 +355,20 @@ tbody tr:hover{
   background:#faf5ff;
 }
 
+.card h3{
+  position:relative;
+  z-index:2;
+  font-size:18px;
+  color:#475569;
+  margin-bottom:15px;
+}
+
 .card p{
+  position:relative;
+  z-index:2;
   margin-top:10px;
+  font-size:42px;
+  font-weight:700;
   color:#2563eb;
 }
 
@@ -586,4 +591,120 @@ textarea{
     grid-template-columns:1fr;
   }
 
+}/* =========================
+   SIDEBAR FOOTER
+========================= */
+
+.sidebar-footer{
+  margin-top:auto;
+  padding-top:20px;
+  text-align:center;
+  font-size:12px;
+  color:#94a3b8;
+  border-top:1px solid rgba(255,255,255,.08);
+  line-height:1.8;
+}
+/* =========================
+   SIDEBAR MENU
+========================= */
+
+.menu{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+
+/* =========================
+   SIDEBAR FOOTER
+========================= */
+
+.sidebar-footer{
+  margin-top:auto;
+  padding-top:18px;
+  padding-bottom:8px;
+  text-align:center;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.footer-title{
+  font-size:12px;
+  font-weight:600;
+  color:#cbd5e1;
+  margin-bottom:4px;
+}
+
+.footer-copy{
+  font-size:11px;
+  color:#64748b;
+}
+/* =========================
+   LOGIN PAGE
+========================= */
+
+.login-page{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#f5f7fb;
+}
+
+.login-card{
+  width:420px;
+  background:white;
+  padding:40px;
+  border-radius:20px;
+  box-shadow:
+  0 20px 50px rgba(0,0,0,.08);
+}
+
+.login-card h1{
+  font-size:42px;
+  margin-bottom:10px;
+}
+
+.login-card p{
+  color:#64748b;
+  margin-bottom:25px;
+}
+
+.login-card form{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.login-card button{
+  height:52px;
+  border:none;
+  background:#2563eb;
+  color:white;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:16px;
+  font-weight:600;
+}
+
+.login-card button:hover{
+  background:#1d4ed8;
+}
+
+.login-error{
+  color:#dc2626;
+  font-size:14px;
+}
+.logout-btn{
+  width:100%;
+  height:42px;
+  border:none;
+  border-radius:10px;
+  background:#ef4444;
+  color:white;
+  cursor:pointer;
+  margin-bottom:15px;
+  font-weight:600;
+}
+
+.logout-btn:hover{
+  background:#dc2626;
 }

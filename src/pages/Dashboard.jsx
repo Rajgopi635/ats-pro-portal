@@ -3,13 +3,16 @@ import { supabase } from "../services/supabase";
 import AddRequirementModal from "../components/AddRequirementModal";
 import AddSubmissionModal from "../components/AddSubmissionModal";
 
-function Dashboard() {
+function Dashboard({ userRole }) {
 
   const [requirements, setRequirements] =
     useState([]);
 
   const [submissions, setSubmissions] =
     useState([]);
+
+    const [candidates, setCandidates] =
+  useState([]);
 
   const [showRequirementModal,
     setShowRequirementModal] =
@@ -29,8 +32,29 @@ function Dashboard() {
 
   useEffect(() => {
 
-    fetchRequirements();
-    fetchSubmissions();
+  fetchRequirements();
+  fetchSubmissions();
+  fetchCandidates();
+
+}, []);
+
+async function fetchCandidates() {
+
+  const { data, error } =
+    await supabase
+      .from("candidates")
+      .select("*")
+      .order("id", {
+        ascending: false
+      });
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  setCandidates(data || []);
+}
 
   }, []);
 
@@ -130,7 +154,9 @@ function Dashboard() {
 
         <h1>ATS Dashboard</h1>
 
-        <div className="top-buttons">
+        {userRole !== "recruiter" && (
+
+<div className="top-buttons">
 
           <button
             className="add-btn"
@@ -154,7 +180,7 @@ function Dashboard() {
             + Add Submission
           </button>
 
-        </div>
+        </div> )}
 
       </div>
 

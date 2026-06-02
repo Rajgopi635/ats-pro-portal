@@ -9,7 +9,9 @@ import {
   Trash2
 } from "lucide-react";
 
-function Candidates() {
+function Candidates({
+  userRole
+}) {
 
   const [candidates, setCandidates] =
     useState([]);
@@ -44,6 +46,13 @@ function Candidates() {
   }
 
   async function deleteCandidate(id) {
+
+  if (
+    userRole ===
+    "recruiter"
+  ) {
+    return;
+  }
 
     const confirmDelete =
       window.confirm(
@@ -164,7 +173,9 @@ function Candidates() {
 
               <th>Status</th>
 
-              <th>Actions</th>
+              {userRole !== "recruiter" && (
+  <th>Actions</th>
+)}
 
             </tr>
 
@@ -207,36 +218,33 @@ function Candidates() {
 
                   </td>
 
-                  <td>
+                  {userRole !== "recruiter" ? (
+  <td>
 
-                    <div className="action-buttons">
+    <div className="action-buttons">
 
-                      <button
-                        className="edit-btn"
-                        onClick={() =>
-                          setEditingCandidate(c)
-                        }
-                      >
+      <button
+        className="edit-btn"
+        onClick={() =>
+          setEditingCandidate(c)
+        }
+      >
+        <Pencil size={16} />
+      </button>
 
-                        <Pencil size={16} />
+      <button
+        className="delete-btn"
+        onClick={() =>
+          deleteCandidate(c.id)
+        }
+      >
+        <Trash2 size={16} />
+      </button>
 
-                      </button>
+    </div>
 
-                      <button
-                        className="delete-btn"
-                        onClick={() =>
-                          deleteCandidate(c.id)
-                        }
-                      >
-
-                        <Trash2 size={16} />
-
-                      </button>
-
-                    </div>
-
-                  </td>
-
+  </td>
+) : null}
                 </tr>
 
               )

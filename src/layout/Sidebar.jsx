@@ -23,13 +23,13 @@ function Sidebar() {
         </div>
 
         <div className="menu-item">
-          <Users size={20} />
-          <span>Candidates</span>
+          <BriefcaseBusiness size={20} />
+          <span>Requirements</span>
         </div>
 
         <div className="menu-item">
-          <BriefcaseBusiness size={20} />
-          <span>Requirements</span>
+          <Users size={20} />
+          <span>Candidates</span>
         </div>
 
         <div className="menu-item">
@@ -42,6 +42,16 @@ function Sidebar() {
           <span>Settings</span>
         </div>
 
+      </div>
+
+      <div className="sidebar-footer">
+        <div className="footer-title">
+          ATS PRO v1.0
+        </div>
+
+        <div className="footer-copy">
+          © 2026 All Rights Reserved
+        </div>
       </div>
 
     </div>
