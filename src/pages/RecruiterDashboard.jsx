@@ -18,22 +18,24 @@ function RecruiterDashboard() {
 
   async function fetchCandidates() {
 
-    const {
-  data: { user }
-} = await supabase.auth.getUser();
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
 
-    const { data } =
-  await supabase
-    .from("candidates")
-    .select("*")
-    .eq(
-      "created_by",
-      user.email
-    );
+  const { data, error } =
+    await supabase
+      .from("candidates")
+      .select("*")
+      .eq("assigned_to", user.email);
 
-    setCandidates(data || []);
-
+  if (error) {
+    console.error("Error fetching candidates:", error);
+    return;
   }
+
+  setCandidates(data || []);
+
+}
 
   async function fetchSubmissions() {
 

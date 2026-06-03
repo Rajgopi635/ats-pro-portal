@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { supabase } from "../services/supabase";
 
 function AddRequirementModal({
@@ -21,6 +20,7 @@ function AddRequirementModal({
       ...formData,
       [e.target.name]: e.target.value
     });
+
   }
 
   async function saveRequirement() {
@@ -42,13 +42,14 @@ function AddRequirementModal({
     if (!error) {
 
       refreshRequirements();
-
       closeModal();
 
     } else {
 
       alert(error.message);
+
     }
+
   }
 
   return (
@@ -59,43 +60,48 @@ function AddRequirementModal({
 
         <h2>Add Requirement</h2>
 
-        <input
-          type="text"
-          placeholder="Job Title"
-          name="job_title"
-          onChange={handleChange}
-        />
+        <div className="form-grid">
 
-        <input
-          type="text"
-          placeholder="Client"
-          name="client"
-          onChange={handleChange}
-        />
+          <input
+            type="text"
+            placeholder="Job Title"
+            name="job_title"
+            onChange={handleChange}
+          />
 
-        <input
-          type="text"
-          placeholder="POC"
-          name="poc"
-          onChange={handleChange}
-        />
+          <input
+            type="text"
+            placeholder="Client"
+            name="client"
+            onChange={handleChange}
+          />
 
-        <input
-          type="text"
-          placeholder="Budget / Rate"
-          name="budget_rate"
-          onChange={handleChange}
-        />
+          <input
+            type="text"
+            placeholder="POC"
+            name="poc"
+            onChange={handleChange}
+          />
 
-        <select
-          className="custom-select"
-          name="status"
-          onChange={handleChange}
-        >
-          <option>Open</option>
-          <option>Hold</option>
-          <option>Closed</option>
-        </select>
+          <input
+            type="text"
+            placeholder="Budget / Rate"
+            name="budget_rate"
+            onChange={handleChange}
+          />
+
+          <select
+            className="custom-select"
+            name="status"
+            onChange={handleChange}
+            defaultValue="Open"
+          >
+            <option value="Open">Open</option>
+            <option value="Hold">Hold</option>
+            <option value="Closed">Closed</option>
+          </select>
+
+        </div>
 
         <div className="modal-buttons">
 
@@ -106,7 +112,10 @@ function AddRequirementModal({
             Cancel
           </button>
 
-          <button onClick={saveRequirement}>
+          <button
+            className="save-btn"
+            onClick={saveRequirement}
+          >
             Save Requirement
           </button>
 
@@ -115,7 +124,9 @@ function AddRequirementModal({
       </div>
 
     </div>
+
   );
+
 }
 
 export default AddRequirementModal;

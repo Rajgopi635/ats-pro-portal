@@ -447,22 +447,27 @@ tbody tr:hover{
 .candidate-modal,
 .submission-modal,
 .modal-content{
-  width:min(1000px,95vw);
+  width:min(720px,90vw);
   max-height:90vh;
   overflow-y:auto;
   background:#fff;
-  border-radius:22px;
-  padding:35px;
-  box-shadow:
-  0 25px 60px rgba(0,0,0,.20);
+  border-radius:20px;
+  padding:32px;
+  box-shadow:0 25px 60px rgba(0,0,0,.20);
 }
 
 .modal h2,
 .candidate-modal h2,
 .submission-modal h2,
 .modal-content h2{
-  font-size:34px;
-  margin-bottom:25px;
+  font-size:42px;
+  font-weight:700;
+  color:#0f172a;
+  margin-bottom:24px;
+}
+.modal input,
+.modal select{
+  margin-bottom:14px;
 }
 
 .form-grid,
@@ -527,26 +532,29 @@ textarea{
 }
 
 .cancel-btn{
-  background:#e2e8f0;
+  background:#f1f5f9;
   color:#334155;
   border:none;
-  padding:12px 20px;
+  padding:12px 24px;
   border-radius:10px;
   cursor:pointer;
+  font-weight:600;
 }
 
-.save-btn,
-.modal-actions button:last-child{
+.save-btn{
   background:#2563eb;
   color:white;
   border:none;
   padding:12px 24px;
   border-radius:10px;
   cursor:pointer;
+  font-weight:600;
+  transition:.25s;
 }
 
 .save-btn:hover{
   background:#1d4ed8;
+  transform:translateY(-1px);
 }
 
 /* =========================
@@ -707,4 +715,323 @@ textarea{
 
 .logout-btn:hover{
   background:#dc2626;
+}
+@keyframes modalFade{
+
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+}
+
+.modal,
+.candidate-modal,
+.submission-modal{
+  animation:modalFade .25s ease;
+}
+@media (max-width: 768px) {
+
+  .app-layout {
+
+    flex-direction: column;
+  }
+
+  .sidebar {
+
+    width: 100%;
+
+    height: auto;
+  }
+
+  .main-content {
+
+    padding: 12px;
+  }
+
+  .cards {
+
+    grid-template-columns: 1fr;
+  }
+
+  table {
+
+    min-width: 900px;
+  }
+
+}
+/* ======================================
+   ATS PRO ENTERPRISE UI OVERRIDES v2
+====================================== */
+
+/* MAIN LAYOUT */
+
+.main-content{
+  margin-left:260px;
+  width:calc(100% - 260px);
+  padding:24px;
+  overflow-x:hidden;
+}
+
+.dashboard{
+  width:100%;
+  max-width:1700px;
+  margin:0 auto;
+}
+
+/* TOP BAR */
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.topbar h1{
+  font-size:clamp(38px,4vw,64px);
+  line-height:1;
+}
+
+/* CARDS */
+
+.cards{
+  display:grid;
+  grid-template-columns:
+  repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+}
+
+.card{
+  min-height:160px;
+  padding:24px;
+}
+
+.card p{
+  font-size:clamp(32px,3vw,42px);
+}
+
+/* SEARCH */
+
+.search-box{
+  width:min(350px,100%);
+}
+
+.add-btn{
+  border:none;
+  background:#2563eb;
+  color:white;
+
+  padding:14px 24px;
+
+  border-radius:12px;
+
+  cursor:pointer;
+
+  font-weight:600;
+
+  font-size:16px;
+
+  min-width:180px;
+
+  height:52px;
+
+  white-space:nowrap;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  transition:.25s;
+}
+
+.add-btn:hover{
+  background:#1d4ed8;
+}
+
+/* TABLE SECTION */
+
+.table-section{
+  width:100%;
+  overflow-x:auto;
+  border-radius:18px;
+  box-shadow:
+  0 10px 30px rgba(15,23,42,.05);
+}
+
+/* IMPORTANT FIX */
+
+table{
+  width:max-content;
+  min-width:100%;
+  border-collapse:collapse;
+}
+
+/* HEADERS */
+
+thead{
+  background:#fafafa;
+}
+
+th{
+  white-space:nowrap;
+  font-size:14px;
+  font-weight:700;
+  color:#64748b;
+}
+
+/* CELLS */
+
+th,
+td{
+  padding:16px 18px;
+  vertical-align:middle;
+  white-space:nowrap;
+}
+
+/* LONG TEXT */
+
+td{
+  font-size:14px;
+}
+
+/* TECHNOLOGY COLUMN */
+
+.technology-cell{
+  min-width:220px;
+  white-space:normal;
+  line-height:1.5;
+}
+
+/* EMAILS */
+
+.email-cell{
+  min-width:220px;
+}
+
+/* CREATED BY */
+
+.audit-cell{
+  min-width:180px;
+}
+
+/* STATUS */
+
+.status,
+.status-badge{
+  white-space:nowrap;
+}
+
+/* ACTIONS */
+
+.action-buttons{
+  display:flex;
+  gap:8px;
+  justify-content:center;
+}
+
+.edit-btn,
+.delete-btn{
+  flex-shrink:0;
+}
+
+/* MODALS */
+
+.modal,
+.candidate-modal,
+.submission-modal{
+  width:min(900px,95vw);
+}
+
+/* FORMS */
+
+.form-grid,
+.candidate-form-grid{
+  display:grid;
+  grid-template-columns:
+  repeat(auto-fit,minmax(250px,1fr));
+  gap:18px;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+  width:10px;
+  height:10px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#cbd5e1;
+  border-radius:999px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background:#94a3b8;
+}
+
+/* LARGE MONITORS */
+
+@media (min-width:1600px){
+
+  .dashboard{
+    max-width:1800px;
+  }
+
+}
+
+/* TABLETS */
+
+@media (max-width:1200px){
+
+  .cards{
+    grid-template-columns:
+    repeat(2,1fr);
+  }
+
+}
+
+/* MOBILE */
+
+@media (max-width:768px){
+
+  .sidebar{
+    position:relative;
+    width:100%;
+  }
+
+  .main-content{
+    margin-left:0;
+    width:100%;
+    padding:12px;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .topbar{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .search-box{
+    width:100%;
+  }
+
+  .add-btn{
+    width:100%;
+  }
+
+  .table-section{
+    overflow-x:auto;
+  }
+
 }

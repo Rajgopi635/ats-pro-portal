@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../services/supabase";
 
 function AddCandidateModal({
@@ -25,12 +25,53 @@ function AddCandidateModal({
       status: "Available"
     });
 
+  const [recruiters, setRecruiters] =
+    useState([]);
+
+  const [currentUserRole, setCurrentUserRole] =
+    useState("");
+
+  const [selectedRecruiter, setSelectedRecruiter] =
+    useState("");
+
+  useEffect(() => {
+    loadRecruiters();
+  }, []);
+
+  async function loadRecruiters() {
+
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
+
+    const { data: currentUser } =
+      await supabase
+        .from("users")
+        .select("role")
+        .eq("email", user.email)
+        .single();
+
+    setCurrentUserRole(
+      currentUser?.role || ""
+    );
+
+    const { data } =
+      await supabase
+        .from("users")
+        .select("email")
+        .eq("role", "recruiter");
+
+    setRecruiters(data || []);
+
+  }
+
   function handleChange(e) {
 
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
+
   }
 
   async function saveCandidate() {
@@ -46,17 +87,37 @@ function AddCandidateModal({
     }
 
     const {
-  data: { user }
-} = await supabase.auth.getUser();
+      data: { user }
+    } = await supabase.auth.getUser();
 
-    const { error } = await supabase
-      .from("candidates")
-      .insert([
-  {
-    ...formData,
-    created_by: user.email
-  }
-]);
+    const assignedRecruiter =
+      currentUserRole === "admin"
+        ? selectedRecruiter
+        : user.email;
+
+    if (
+      currentUserRole === "admin" &&
+      !selectedRecruiter
+    ) {
+      alert(
+        "Please assign a recruiter."
+      );
+      return;
+    }
+
+    const { error } =
+      await supabase
+        .from("candidates")
+        .insert([
+          {
+            ...formData,
+
+            created_by: user.email,
+
+            assigned_to:
+              assignedRecruiter
+          }
+        ]);
 
     if (!error) {
 
@@ -67,7 +128,9 @@ function AddCandidateModal({
     } else {
 
       alert(error.message);
+
     }
+
   }
 
   return (
@@ -167,6 +230,39 @@ function AddCandidateModal({
             </option>
 
           </select>
+
+          {currentUserRole === "admin" && (
+
+            <select
+              className="custom-select"
+              value={selectedRecruiter}
+              onChange={(e) =>
+                setSelectedRecruiter(
+                  e.target.value
+                )
+              }
+            >
+
+              <option value="">
+                Assign Recruiter
+              </option>
+
+              {recruiters.map(
+                (r) => (
+
+                  <option
+                    key={r.email}
+                    value={r.email}
+                  >
+                    {r.email}
+                  </option>
+
+                )
+              )}
+
+            </select>
+
+          )}
 
         </div>
 

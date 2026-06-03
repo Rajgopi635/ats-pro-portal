@@ -484,6 +484,19 @@ async function fetchCandidates() {
 
       </div>
 
+      {showRequirementModal && (
+
+  <AddRequirementModal
+    closeModal={() =>
+      setShowRequirementModal(false)
+    }
+    refreshRequirements={
+      fetchRequirements
+    }
+  />
+
+)}
+
       {showSubmissionModal && (
 
         <AddSubmissionModal

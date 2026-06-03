@@ -36,23 +36,20 @@ function Candidates({
 
   if (userRole === "recruiter") {
 
-    const {
-      data: { user }
-    } = await supabase.auth.getUser();
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
 
-    const { data } =
-      await supabase
-        .from("candidates")
-        .select("*")
-        .eq(
-          "created_by",
-          user.email
-        )
-        .order("id", {
-          ascending: false
-        });
+  const { data } =
+    await supabase
+      .from("candidates")
+      .select("*")
+      .eq("assigned_to", user.email)
+      .order("id", {
+        ascending: false
+      });
 
-    setCandidates(data || []);
+  setCandidates(data || []);
 
   } else {
 
@@ -162,19 +159,18 @@ function Candidates({
             <tr>
 
               <th>Name</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Technology</th>
+<th>Experience</th>
+<th>Status</th>
 
-              <th>Email</th>
-
-              <th>Phone</th>
-
-              <th>Technology</th>
-
-              <th>Experience</th>
-
-              <th>Status</th>
-
-              {userRole !== "recruiter" && (
-  <th>Actions</th>
+{userRole !== "recruiter" && (
+  <>
+    <th>Created By</th>
+    <th>Assigned To</th>
+    <th>Created On</th>
+  </>
 )}
 
             </tr>
@@ -210,41 +206,60 @@ function Candidates({
 
                   <td>
 
-                    <span className="status submitted">
+  <span className="status submitted">
 
-                      {c.status}
+    {c.status}
 
-                    </span>
+  </span>
 
-                  </td>
+</td>
 
-                  {userRole !== "recruiter" ? (
-  <td>
+{userRole !== "recruiter" && (
 
-    <div className="action-buttons">
+  <>
+    <td>
+      {c.created_by || "-"}
+    </td>
 
-      <button
-        className="edit-btn"
-        onClick={() =>
-          setEditingCandidate(c)
-        }
-      >
-        <Pencil size={16} />
-      </button>
+    <td>
+      {c.assigned_to || "-"}
+    </td>
 
-      <button
-        className="delete-btn"
-        onClick={() =>
-          deleteCandidate(c.id)
-        }
-      >
-        <Trash2 size={16} />
-      </button>
+    <td>
+      {new Date(
+        c.created_at
+      ).toLocaleDateString()}
+    </td>
 
-    </div>
+    <td>
 
-  </td>
-) : null}
+      <div className="action-buttons">
+
+        <button
+          className="edit-btn"
+          onClick={() =>
+            setEditingCandidate(c)
+          }
+        >
+          <Pencil size={16} />
+        </button>
+
+        <button
+          className="delete-btn"
+          onClick={() =>
+            deleteCandidate(c.id)
+          }
+        >
+          <Trash2 size={16} />
+        </button>
+
+      </div>
+
+    </td>
+
+  </>
+
+)}
                 </tr>
 
               )
