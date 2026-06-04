@@ -31,52 +31,110 @@ function Login({ onLogin }) {
   }
 
   return (
-    <div className="login-page">
+    <div className="ats-login-page">
 
-      <div className="login-card">
+      <div className="ats-login-bg"></div>
 
-        <h1>ATS PRO</h1>
+      <div className="ats-login-container">
 
-        <p>Recruitment Portal</p>
+        {/* LEFT SIDE */}
 
-        <form onSubmit={handleLogin}>
+        <div className="ats-login-left">
 
-          <input
-            type="email"
-            placeholder="Email Address"
-            value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
-            required
-          />
+          <h1>ATS PRO AI</h1>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
-            required
-          />
+          <p>
+            Recruitment Intelligence Platform
+          </p>
 
-          {error && (
-            <div className="login-error">
-              {error}
+          <div className="ats-feature-list">
+            <div>✓ AI Resume Matching</div>
+            <div>✓ Smart Candidate Ranking</div>
+            <div>✓ Submission Tracking</div>
+            <div>✓ Live Analytics Dashboard</div>
+          </div>
+
+          <div className="ats-ai-cards">
+
+            <div className="ats-ai-card">
+              <span>97% Match</span>
+              <h4>SAP S4 HANA Consultant</h4>
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={loading}
+            <div className="ats-ai-card">
+              <span>92% Match</span>
+              <h4>Java Full Stack Developer</h4>
+            </div>
+
+            <div className="ats-ai-card">
+              <span>89% Match</span>
+              <h4>Data Engineer</h4>
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* RIGHT SIDE */}
+
+        <div className="ats-login-card">
+
+          <div className="ats-version">
+            ATS PRO v1.0
+          </div>
+
+          <h2>Welcome Back</h2>
+
+          <p>
+            Sign in to continue
+          </p>
+
+          <form
+            onSubmit={handleLogin}
+            className="ats-login-form"
           >
-            {loading
-              ? "Signing In..."
-              : "Login"}
-          </button>
 
-        </form>
+            <input
+              className="ats-input"
+              type="email"
+              placeholder="Email Address"
+              value={email}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
+              required
+            />
+
+            <input
+              className="ats-input"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) =>
+                setPassword(e.target.value)
+              }
+              required
+            />
+
+            {error && (
+              <div className="ats-error">
+                {error}
+              </div>
+            )}
+
+            <button
+              className="ats-login-btn"
+              type="submit"
+              disabled={loading}
+            >
+              {loading
+                ? "Signing In..."
+                : "Login to ATS PRO"}
+            </button>
+
+          </form>
+
+        </div>
 
       </div>
 
