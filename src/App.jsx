@@ -273,10 +273,12 @@ function App() {
 )}
 
   {activePage ===
-    "requirements" &&
-    userRole !== "recruiter" && (
-    <Requirements />
-  )}
+  "requirements" &&
+  userRole !== "recruiter" && (
+  <Requirements
+    userRole={userRole}
+  />
+)}
 
   {activePage ===
     "candidates" && (

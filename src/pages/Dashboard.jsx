@@ -30,11 +30,15 @@ function Dashboard({ userRole }) {
     setFilteredData] =
     useState([]);
 
+    const [activities, setActivities] =
+  useState([]);
+
   useEffect(() => {
 
   fetchRequirements();
-  fetchSubmissions();
-  fetchCandidates();
+fetchSubmissions();
+fetchCandidates();
+fetchActivityLogs();
 
 
 async function fetchCandidates() {
@@ -61,9 +65,17 @@ async function fetchCandidates() {
 
     if (activeView === "requirements") {
 
-      setFilteredData(requirements);
+  setFilteredData(
 
-    } else if (
+    requirements.filter(
+      (req) =>
+        req.status &&
+        req.status.toLowerCase() === "open"
+    )
+
+  );
+}
+    else if (
       activeView === "submissions"
     ) {
 
@@ -125,25 +137,55 @@ async function fetchCandidates() {
     setRequirements(data || []);
   }
 
+  async function fetchActivityLogs() {
+
+  const { data, error } =
+    await supabase
+      .from("activity_logs")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      })
+      .limit(10);
+
+  if (error) {
+
+    console.log(
+      "Activity Error:",
+      error
+    );
+
+    return;
+  }
+
+  console.log(
+    "Activities:",
+    data
+  );
+
+  setActivities(data || []);
+}
+
   async function fetchSubmissions() {
 
-    const { data, error } =
-      await supabase
-        .from("candidate_submissions")
-        .select("*")
-        .order("id", {
-          ascending: false
-        });
+  const { data, error } =
+    await supabase
+      .from("candidate_submissions")
+      .select("*")
+      .order("id", {
+        ascending: false
+      });
 
-    if (error) {
+  if (error) {
 
-      console.log(error);
-      return;
+    console.log(error);
+    return;
 
-    }
-
-    setSubmissions(data || []);
   }
+
+  setSubmissions(data || []);
+
+}
 
   return (
 
@@ -274,6 +316,59 @@ async function fetchCandidates() {
         </div>
 
       </div>
+
+      <div
+  className="activity-feed"
+  style={{
+    maxHeight: "05px",
+    overflowY: "auto"
+  }}
+></div>
+
+      <div className="table-section">
+
+  <div className="table-header">
+    Recent Activity
+  </div>
+
+  <div className="activity-feed">
+
+    {activities.length > 0 ? (
+
+      activities.map((activity) => (
+
+        <div
+          key={activity.id}
+          className="activity-item"
+        >
+
+          <div className="activity-title">
+            {activity.activity_message}
+          </div>
+
+          <div className="activity-meta">
+            {activity.created_by}
+            {" • "}
+            {new Date(
+              activity.created_at
+            ).toLocaleString()}
+          </div>
+
+        </div>
+
+      ))
+
+    ) : (
+
+      <div className="activity-empty">
+        No Recent Activity
+      </div>
+
+    )}
+
+  </div>
+
+</div>
 
       <div className="table-section">
 

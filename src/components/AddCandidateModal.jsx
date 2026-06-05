@@ -121,15 +121,29 @@ function AddCandidateModal({
 
     if (!error) {
 
-      refreshCandidates();
+  await supabase
+    .from("activity_logs")
+    .insert([
+      {
+        activity_type: "candidate",
 
-      closeModal();
+        activity_message:
+          `New Candidate Added: ${formData.candidate_name}`,
 
-    } else {
+        created_by:
+          user.email
+      }
+    ]);
 
-      alert(error.message);
+  refreshCandidates();
 
-    }
+  closeModal();
+
+} else {
+
+  alert(error.message);
+
+}
 
   }
 

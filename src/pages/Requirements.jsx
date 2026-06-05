@@ -8,7 +8,9 @@ import {
 
 import EditRequirementModal from "../components/EditRequirementModal";
 
-function Requirements() {
+function Requirements({
+  userRole
+}) {
 
   const [requirements, setRequirements] =
     useState([]);
@@ -28,16 +30,51 @@ function Requirements() {
 
   async function fetchRequirements() {
 
-    const { data } =
-      await supabase
-        .from("requirements")
-        .select("*")
-        .order("id", {
-          ascending: false
-        });
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
 
-    setRequirements(data || []);
+  let query =
+    supabase
+      .from("requirements")
+      .select("*");
+
+  if (
+    userRole === "sales"
+  ) {
+
+    query =
+      query.eq(
+        "created_by",
+        user.email
+      );
+
   }
+
+  if (
+    userRole === "recruiter"
+  ) {
+
+    query =
+      query.eq(
+        "assigned_to",
+        user.email
+      );
+
+  }
+
+  const { data } =
+    await query.order(
+      "id",
+      {
+        ascending: false
+      }
+    );
+
+  setRequirements(
+    data || []
+  );
+}
 
   async function deleteRequirement(id) {
 
@@ -132,9 +169,13 @@ function Requirements() {
 
               <th>Status</th>
 
-              <th>Created</th>
+<th>Created By</th>
 
-              <th>Actions</th>
+<th>Assigned To</th>
+
+<th>Created</th>
+
+<th>Actions</th>
 
             </tr>
 
@@ -172,6 +213,13 @@ function Requirements() {
                     </span>
 
                   </td>
+                  <td>
+  {req.created_by || "-"}
+</td>
+
+<td>
+  {req.assigned_to || "-"}
+</td>
 
                   <td>
 

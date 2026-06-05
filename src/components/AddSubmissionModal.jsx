@@ -172,14 +172,32 @@ function AddSubmissionModal({
 
     if (!error) {
 
-      refreshSubmissions();
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
 
-      closeModal();
+  await supabase
+    .from("activity_logs")
+    .insert([
+      {
+        activity_type: "submission",
 
-    } else {
+        activity_message:
+          `${formData.candidate_name} submitted for ${formData.job_title}`,
 
-      alert(error.message);
-    }
+        created_by:
+          user.email
+      }
+    ]);
+
+  refreshSubmissions();
+
+  closeModal();
+
+} else {
+
+  alert(error.message);
+}
   }
 
   return (

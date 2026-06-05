@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../services/supabase";
 
 function AddRequirementModal({
@@ -13,6 +13,28 @@ function AddRequirementModal({
     budget_rate: "",
     status: "Open"
   });
+
+  const [recruiters, setRecruiters] =
+    useState([]);
+
+  const [selectedRecruiter,
+    setSelectedRecruiter] =
+    useState("");
+
+  useEffect(() => {
+    loadRecruiters();
+  }, []);
+
+  async function loadRecruiters() {
+
+    const { data } =
+      await supabase
+        .from("users")
+        .select("email")
+        .eq("role", "recruiter");
+
+    setRecruiters(data || []);
+  }
 
   function handleChange(e) {
 
@@ -35,16 +57,54 @@ function AddRequirementModal({
       return;
     }
 
-    const { error } = await supabase
-      .from("requirements")
-      .insert([formData]);
+    if (!selectedRecruiter) {
+      alert("Please assign a recruiter");
+      return;
+    }
+
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
+
+    const { error } =
+      await supabase
+        .from("requirements")
+        .insert([
+          {
+            ...formData,
+
+            created_by:
+              user.email,
+
+            assigned_to:
+              selectedRecruiter
+          }
+        ]);
 
     if (!error) {
 
-      refreshRequirements();
-      closeModal();
+console.log("ACTIVITY LOG CODE RUNNING");
 
-    } else {
+  const { data, error: activityError } =
+  await supabase
+    .from("activity_logs")
+    .insert([
+      {
+        activity_type: "requirement",
+        activity_message:
+          `TEST-${Date.now()}`,
+        created_by: user.email
+      }
+    ])
+    .select();
+
+console.log("Inserted Row:", data);
+console.log("Insert Error:", activityError);
+
+  refreshRequirements();
+window.location.reload();
+
+} else {
 
       alert(error.message);
 
@@ -96,9 +156,47 @@ function AddRequirementModal({
             onChange={handleChange}
             defaultValue="Open"
           >
-            <option value="Open">Open</option>
-            <option value="Hold">Hold</option>
-            <option value="Closed">Closed</option>
+            <option value="Open">
+              Open
+            </option>
+
+            <option value="Hold">
+              Hold
+            </option>
+
+            <option value="Closed">
+              Closed
+            </option>
+
+          </select>
+
+          <select
+            className="custom-select"
+            value={selectedRecruiter}
+            onChange={(e) =>
+              setSelectedRecruiter(
+                e.target.value
+              )
+            }
+          >
+
+            <option value="">
+              Assign Recruiter
+            </option>
+
+            {recruiters.map(
+              (r) => (
+
+                <option
+                  key={r.email}
+                  value={r.email}
+                >
+                  {r.email}
+                </option>
+
+              )
+            )}
+
           </select>
 
         </div>

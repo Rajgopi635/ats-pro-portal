@@ -31,6 +31,33 @@ function Candidates({
     fetchCandidates();
 
   }, []);
+  
+  async function deleteCandidate(id) {
+
+  const confirmed =
+    window.confirm(
+      "Delete this candidate?"
+    );
+
+  if (!confirmed) return;
+
+  const { error } =
+    await supabase
+      .from("candidates")
+      .delete()
+      .eq("id", id);
+
+  if (error) {
+
+    console.log(error);
+    alert(error.message);
+
+  } else {
+
+    fetchCandidates();
+
+  }
+}
 
   async function fetchCandidates() {
 

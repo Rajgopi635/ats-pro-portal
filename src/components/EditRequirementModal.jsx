@@ -46,11 +46,29 @@ function EditRequirementModal({
 
     if (!error) {
 
-      refreshRequirements();
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
 
-      closeModal();
+  await supabase
+    .from("activity_logs")
+    .insert([
+      {
+        activity_type: "requirement",
 
-    } else {
+        activity_message:
+          `Requirement updated: ${formData.job_title}`,
+
+        created_by:
+          user.email
+      }
+    ]);
+
+  refreshRequirements();
+
+  closeModal();
+
+} else {
 
       alert(error.message);
     }
