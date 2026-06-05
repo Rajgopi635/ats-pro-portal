@@ -198,7 +198,8 @@ body{
 .table-section{
   background:white;
   border-radius:18px;
-  overflow:hidden;
+  overflow-x:auto;
+  overflow-y:hidden;
   border:1px solid #e5e7eb;
 }
 
@@ -929,4 +930,17 @@ textarea{
 
 .activity-empty {
   padding: 20px;
+}
+#root {
+  zoom: 0.8;
+}
+.table-scroll {
+  width: max -content;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: auto;
+}
+
+.table-scroll table {
+  min-width: 1800px;
 }

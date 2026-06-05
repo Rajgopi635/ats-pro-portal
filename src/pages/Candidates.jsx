@@ -173,13 +173,13 @@ function Candidates({
 
       <div className="table-section">
 
-        <div className="table-header">
+  <div className="table-header">
+    Candidate Database
+  </div>
 
-          Candidate Database
+  <div className="table-scroll">
 
-        </div>
-
-        <table>
+    <table>
 
           <thead>
 
@@ -297,6 +297,8 @@ function Candidates({
         </table>
 
       </div>
+
+</div>
 
       {showModal && (
 
