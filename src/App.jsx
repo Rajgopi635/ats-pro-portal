@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { FaBrain, FaCode, FaDatabase } from "react-icons/fa";
 import Dashboard from "./pages/Dashboard";
 import Requirements from "./pages/Requirements";
 import Candidates from "./pages/Candidates";
